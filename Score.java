@@ -1,6 +1,14 @@
 public class Score {
+    /*
+    This Score class consists of 3 methods that produce a score chart for each roll
+    the chart is updated after each roll and displays the current value of the roll
+    */
+
 
     public static int countOccurrences(int[] array, int target) {  // used this approach from GeeksforGeeks occurence counting function
+    /*
+    Counts the occurrences of the target number rolled and returns it
+    */
     int count = 0;
     for (int num : array) {
         if (num == target) {
@@ -11,6 +19,10 @@ public class Score {
 }
 
     public static int[] createOccurrenceList(int[] array) {
+    /*
+    Creates a new array containing the number of occurrences of each number
+    This array is then returned to be used in calculating the score
+    */
     int onesCount = countOccurrences(array, 1);
     int twosCount = countOccurrences(array, 2);
     int threesCount = countOccurrences(array, 3);
@@ -22,6 +34,10 @@ public class Score {
     }
 
     public static int scoreChart(int[] occurrenceList) {
+    /*
+    Checks every known combination of dice based on the frequencies provided in the occurenceList
+    calculates and returns the score based on the combos
+    */
     boolean straight = true;
 
     for (int num : occurrenceList) { // check for six of a kind
