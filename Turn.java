@@ -17,9 +17,9 @@ public class Turn {
         private static int currentScore = 0;
         private static final int[] farkleArray = {0,0,0,0,0,0};
 
-    public static int[] printMenu(int[] RollArray, char InputLetter) {
+    public static int[] printMenu(int[] RollArray, String inputString) {
         /*
-        containts all logic to print the menu based on the hand, meld, and score states
+        contains all logic to print the menu based on the hand, meld, and score states
         updates frequently after the user makes any action
         */
         int [] occurrenceCount = Score.createOccurrenceList(RollArray);   
@@ -36,75 +36,78 @@ public class Turn {
         System.out.println("Die   Hand |   Meld");
         System.out.println("-----------+------------");
 
-        if (InputLetter == 'A' && aBanked == true) {
-            aBanked = false;
-        }
-        else if (InputLetter == 'A' && aBanked == false){
-            aBanked = true;
-        }
-        if (InputLetter == 'B' && bBanked == true) {
-            bBanked = false;
-        }
-        else if (InputLetter == 'B' && bBanked == false){
-            bBanked = true;
-        }
-        if (InputLetter == 'C' && cBanked == true) {
-            cBanked = false;
-        }
-        else if (InputLetter == 'C' && cBanked == false){
-            cBanked = true;
-        }
-        if (InputLetter == 'D' && dBanked == true) {
-            dBanked = false;
-        }
-        else if (InputLetter == 'D' && dBanked == false){
-            dBanked = true;
-        }
-        if (InputLetter == 'E' && eBanked == true) {
-            eBanked = false;
-        }
-        else if (InputLetter == 'E' && eBanked == false){
-            eBanked = true;
-        }
-        if (InputLetter == 'F' && fBanked == true) {
-            fBanked = false;
-        }
-        else if (InputLetter == 'F' && fBanked == false){
-            fBanked = true;
+        for (int i = 0; i < inputString.length(); i++) {
+            char currentChar = inputString.charAt(i);
+            
+
+            if (currentChar == 'A' && aBanked == true) {
+                aBanked = false;
+            }
+            else if (currentChar == 'A' && aBanked == false){
+                aBanked = true;
+            }
+            if (currentChar == 'B' && bBanked == true) {
+                bBanked = false;
+            }
+            else if (currentChar == 'B' && bBanked == false){
+                bBanked = true;
+            }
+            if (currentChar == 'C' && cBanked == true) {
+                cBanked = false;
+            }
+            else if (currentChar == 'C' && cBanked == false){
+                cBanked = true;
+            }
+            if (currentChar == 'D' && dBanked == true) {
+                dBanked = false;
+            }
+            else if (currentChar == 'D' && dBanked == false){
+                dBanked = true;
+            }
+            if (currentChar == 'E' && eBanked == true) {
+                eBanked = false;
+            }
+            else if (currentChar == 'E' && eBanked == false){
+                eBanked = true;
+            }
+            if (currentChar == 'F' && fBanked == true) {
+                fBanked = false;
+            }
+            else if (currentChar == 'F' && fBanked == false){
+                fBanked = true;
+            }
         }
 
-
-        if (aBanked == true){
-            System.out.println("(A)   " + RollArray[0] + "    |");
-        } else{
-            System.out.println("(A)   " + "     |    " + RollArray[0]);
-        }
-        if (bBanked == true){
-            System.out.println("(B)   " + RollArray[1] + "    |");
-        } else{
-            System.out.println("(B)   " + "     |    " + RollArray[1]);
-        }  
-        if (cBanked == true){
-            System.out.println("(C)   " + RollArray[2] + "    |");
-        } else{
-            System.out.println("(C)   " + "     |    " + RollArray[2]);
-        }
-        if (dBanked == true){
-            System.out.println("(D)   " + RollArray[3] + "    |");
-        } else{
-            System.out.println("(D)   " + "     |    " + RollArray[3]);
-        }
-        if (eBanked == true){
-            System.out.println("(E)   " + RollArray[4] + "    |");
-        } else{
-            System.out.println("(E)   " + "     |    " + RollArray[4]);
-        }
-        if (fBanked == true){
-            System.out.println("(F)   " + RollArray[5] + "    |");
-        } else{
-            System.out.println("(F)   " + "     |    " + RollArray[5]);
-        }
-
+            if (aBanked == true){
+                System.out.println("(A)   " + RollArray[0] + "    |");
+            } else{
+                System.out.println("(A)   " + "     |    " + RollArray[0]);
+            }
+            if (bBanked == true){
+                System.out.println("(B)   " + RollArray[1] + "    |");
+            } else{
+                System.out.println("(B)   " + "     |    " + RollArray[1]);
+            }  
+            if (cBanked == true){
+                System.out.println("(C)   " + RollArray[2] + "    |");
+            } else{
+                System.out.println("(C)   " + "     |    " + RollArray[2]);
+            }
+            if (dBanked == true){
+                System.out.println("(D)   " + RollArray[3] + "    |");
+            } else{
+                System.out.println("(D)   " + "     |    " + RollArray[3]);
+            }
+            if (eBanked == true){
+                System.out.println("(E)   " + RollArray[4] + "    |");
+            } else{
+                System.out.println("(E)   " + "     |    " + RollArray[4]);
+            }
+            if (fBanked == true){
+                System.out.println("(F)   " + RollArray[5] + "    |");
+            } else{
+                System.out.println("(F)   " + "     |    " + RollArray[5]);
+            }
 
         System.out.println("\n(K) Keep meld score and end turn");
         System.out.println("(R) Reroll dice in hand");
@@ -129,23 +132,23 @@ public class Turn {
 
 
         int[] firstRollArray = Dice.firstRoll();   // used Claude to help me figure out how to import other classes and methods
-        int[] newRollArray = printMenu(firstRollArray, 'Z');
+        int[] newRollArray = printMenu(firstRollArray, "Z");
         Scanner scanner = new Scanner(System.in);  // found the scanner class for user input from google gen Ai
         System.out.print("Enter the Letter for your Choice: ");
-        char userLetter = scanner.next().charAt(0);
+        String userString = scanner.next().toUpperCase();
         Random random = new Random();
      
         
 
-        while (userLetter != 'Q') {
+        while (!userString.equals("Q")) {
             if (Arrays.equals(newRollArray, farkleArray)) { // found this method for comparing list content from stack overflow notes
                 return;
             }
-            if (userLetter == 'K') {
+            if (userString.equals("K")) {
                 System.out.println("\nYour Final Score is: " + currentScore);
                 return;
             }
-            if (userLetter == 'R') {
+            if (userString.equals("R")) {
                 if (aBanked == true) {
                     newRollArray[0] = random.nextInt(6) + 1;
                 }
@@ -168,9 +171,9 @@ public class Turn {
             if (Arrays.equals(newRollArray, farkleArray)) {
                 return;
             }
-            newRollArray = printMenu(newRollArray, userLetter);
+            newRollArray = printMenu(newRollArray, userString);
             System.out.print("Enter the Letter for your Choice: ");
-            userLetter = scanner.next().charAt(0);
+            userString = scanner.next().toUpperCase();
             
             
         }
