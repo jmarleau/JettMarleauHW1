@@ -201,29 +201,34 @@ public class Turn {
                 
             }
             if (userString.equals("R")) {
-                if (aBanked == true) {
-                    newRollArray[0] = random.nextInt(6) + 1;
-                }
-                if (bBanked == true) {
-                    newRollArray[1] = random.nextInt(6) + 1;
-                }
-                if (cBanked == true) {
-                    newRollArray[2] = random.nextInt(6) + 1;
-                }
-                if (dBanked == true) {
-                    newRollArray[3] = random.nextInt(6) + 1;
-                }
-                if (eBanked == true) {
-                    newRollArray[4] = random.nextInt(6) + 1;
-                }
-                if (fBanked == true) {
-                    newRollArray[5] = random.nextInt(6) + 1;
-                }
-                rollOccurrenceCount = countHand(newRollArray);
-                if (Score.scoreChart(rollOccurrenceCount) == 0) {
-                    System.out.println("\nFarkle! Score = 0");
-                    System.out.println(Arrays.toString(newRollArray));
-                    return;
+                if (meldScore == 0) {
+                    System.out.println("\nError: Must have a valid meld to reroll");
+                    }
+                else {
+                    if (aBanked == true) {
+                        newRollArray[0] = random.nextInt(6) + 1;
+                    }
+                    if (bBanked == true) {
+                        newRollArray[1] = random.nextInt(6) + 1;
+                    }
+                    if (cBanked == true) {
+                        newRollArray[2] = random.nextInt(6) + 1;
+                    }
+                    if (dBanked == true) {
+                        newRollArray[3] = random.nextInt(6) + 1;
+                    }
+                    if (eBanked == true) {
+                        newRollArray[4] = random.nextInt(6) + 1;
+                    }
+                    if (fBanked == true) {
+                        newRollArray[5] = random.nextInt(6) + 1;
+                    }
+                    rollOccurrenceCount = countHand(newRollArray);
+                    if (Score.scoreChart(rollOccurrenceCount) == 0) {
+                        System.out.println("\nFarkle! Score = 0");
+                        System.out.println(Arrays.toString(newRollArray));
+                        return;
+                        }
                 }
             }
             newRollArray = printMenu(newRollArray, userString);
