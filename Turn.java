@@ -14,27 +14,52 @@ public class Turn {
         private static boolean dBanked = true;
         private static boolean eBanked = true;
         private static boolean fBanked = true;
-        private static int currentScore = 0;
+        public static int meldScore = 0;
+        public static int handScore = 0;
         private static final int[] farkleArray = {0,0,0,0,0,0};
+        public static int [] meldOccurrenceArray = {0,0,0,0,0,0};
+        public static int [] handOccurrenceArray = {0,0,0,0,0,0};
+        public static boolean firstRoll = true;
+        private static int[] rollOccurrenceCount = {0,0,0,0,0,0};
 
+    
+    private static int[] countHand(int[] dice) {
+    boolean[] inHand = {aBanked, bBanked, cBanked, dBanked, eBanked, fBanked}; // claude recommended this improved array style of booleans over my original non-array style
+    int[] counts = {0,0,0,0,0,0};
+    for (int i = 0; i < 6; i++) {
+        if (inHand[i] == true) {
+            counts[dice[i] - 1] += 1;
+        }
+    }
+    return counts;
+    }
+    
+    
+    
     public static int[] printMenu(int[] RollArray, String inputString) {
         /*
         contains all logic to print the menu based on the hand, meld, and score states
         updates frequently after the user makes any action
         */
-        int [] occurrenceCount = Score.createOccurrenceList(RollArray);   
-        currentScore = Score.scoreChart(occurrenceCount);
-        if (currentScore == 0){
-            System.out.println("\nFarkle! Score = 0");
-            return farkleArray;
+        
+        if (firstRoll == true) {
+           rollOccurrenceCount = Score.createOccurrenceList(RollArray);  
+           firstRoll = false;
+           if (Score.scoreChart(rollOccurrenceCount) == 0) {
+                System.out.println("\nFarkle! Score = 0");
+                return farkleArray;
+                }
         }
+
         System.out.println("\nCurrent Hand:" + Arrays.toString(RollArray));  // looked this method up online
-        System.out.println("Occurence of each die value (1 - 6) : " + Arrays.toString(occurrenceCount) + "\n");
+        System.out.println("Occurence of each die value (1 - 6) : " + Arrays.toString(rollOccurrenceCount) + "\n");
         
 
         System.out.println("********** Current Hand and Meld **********");
         System.out.println("Die   Hand |   Meld");
         System.out.println("-----------+------------");
+
+        
 
         for (int i = 0; i < inputString.length(); i++) {
             char currentChar = inputString.charAt(i);
@@ -42,42 +67,66 @@ public class Turn {
 
             if (currentChar == 'A' && aBanked == true) {
                 aBanked = false;
+                rollOccurrenceCount[RollArray[0] - 1] -= 1;
+                meldOccurrenceArray[RollArray[0] - 1] += 1;
             }
             else if (currentChar == 'A' && aBanked == false){
                 aBanked = true;
+                rollOccurrenceCount[RollArray[0] - 1] += 1;
+                meldOccurrenceArray[RollArray[0] - 1] -= 1;
             }
             if (currentChar == 'B' && bBanked == true) {
                 bBanked = false;
+                rollOccurrenceCount[RollArray[1] - 1] -= 1;
+                meldOccurrenceArray[RollArray[1] - 1] += 1;
             }
             else if (currentChar == 'B' && bBanked == false){
                 bBanked = true;
+                rollOccurrenceCount[RollArray[1] - 1] += 1;
+                meldOccurrenceArray[RollArray[1] - 1] -= 1;
             }
             if (currentChar == 'C' && cBanked == true) {
                 cBanked = false;
+                rollOccurrenceCount[RollArray[2] - 1] -= 1;
+                meldOccurrenceArray[RollArray[2] - 1] += 1;
             }
             else if (currentChar == 'C' && cBanked == false){
                 cBanked = true;
+                rollOccurrenceCount[RollArray[2] - 1] += 1;
+                meldOccurrenceArray[RollArray[2] - 1] -= 1;
             }
             if (currentChar == 'D' && dBanked == true) {
                 dBanked = false;
+                rollOccurrenceCount[RollArray[3] - 1] -= 1;
+                meldOccurrenceArray[RollArray[3] - 1] += 1;
             }
             else if (currentChar == 'D' && dBanked == false){
                 dBanked = true;
+                rollOccurrenceCount[RollArray[3] - 1] += 1;
+                meldOccurrenceArray[RollArray[3] - 1] -= 1;
             }
             if (currentChar == 'E' && eBanked == true) {
                 eBanked = false;
+                rollOccurrenceCount[RollArray[4] - 1] -= 1;
+                meldOccurrenceArray[RollArray[4] - 1] += 1;
             }
             else if (currentChar == 'E' && eBanked == false){
                 eBanked = true;
+                rollOccurrenceCount[RollArray[4] - 1] += 1;
+                meldOccurrenceArray[RollArray[4] - 1] -= 1;
             }
             if (currentChar == 'F' && fBanked == true) {
                 fBanked = false;
+                rollOccurrenceCount[RollArray[5] - 1] -= 1;
+                meldOccurrenceArray[RollArray[5] - 1] += 1;
             }
             else if (currentChar == 'F' && fBanked == false){
                 fBanked = true;
+                rollOccurrenceCount[RollArray[5] - 1] += 1;
+                meldOccurrenceArray[RollArray[5] - 1] -= 1;
             }
         }
-
+            meldScore = Score.scoreChart(meldOccurrenceArray);
             if (aBanked == true){
                 System.out.println("(A)   " + RollArray[0] + "    |");
             } else{
@@ -113,7 +162,7 @@ public class Turn {
         System.out.println("(R) Reroll dice in hand");
         System.out.println("(Q) Quit Game");
 
-        System.out.println("\nCurrent Score: " + currentScore +"\n");
+        System.out.println("\nCurrent Score: " + meldScore +"\n");
 
 
         return RollArray;
@@ -141,12 +190,15 @@ public class Turn {
         
 
         while (!userString.equals("Q")) {
-            if (Arrays.equals(newRollArray, farkleArray)) { // found this method for comparing list content from stack overflow notes
-                return;
-            }
             if (userString.equals("K")) {
-                System.out.println("\nYour Final Score is: " + currentScore);
-                return;
+                if (!Arrays.equals(meldOccurrenceArray, new int[]{0,0,0,0,0,0})) { // Geeks for Geeks helped show this approach fro comparing to an 0 only array
+                   System.out.println("\nYour Final Score is: " + meldScore);
+                return; 
+                }
+                else {
+                    System.out.println("\nError: must have dice melded to keep score and end turn");
+                }
+                
             }
             if (userString.equals("R")) {
                 if (aBanked == true) {
@@ -167,13 +219,18 @@ public class Turn {
                 if (fBanked == true) {
                     newRollArray[5] = random.nextInt(6) + 1;
                 }
-            }
-            if (Arrays.equals(newRollArray, farkleArray)) {
-                return;
+                rollOccurrenceCount = countHand(newRollArray);
+                if (Score.scoreChart(rollOccurrenceCount) == 0) {
+                    System.out.println("\nFarkle! Score = 0");
+                    System.out.println(Arrays.toString(newRollArray));
+                    return;
+                }
             }
             newRollArray = printMenu(newRollArray, userString);
+            
             System.out.print("Enter the Letter for your Choice: ");
             userString = scanner.next().toUpperCase();
+            
             
             
         }
