@@ -16,11 +16,13 @@ public class Turn {
         private static boolean fBanked = true;
         public static int meldScore = 0;
         public static int handScore = 0;
+        public static int savedPoints = 0;
         private static final int[] farkleArray = {0,0,0,0,0,0};
         public static int [] meldOccurrenceArray = {0,0,0,0,0,0};
         public static int [] handOccurrenceArray = {0,0,0,0,0,0};
         public static boolean firstRoll = true;
         private static int[] rollOccurrenceCount = {0,0,0,0,0,0};
+
 
     
     private static int[] countHand(int[] dice) {
@@ -171,17 +173,44 @@ public class Turn {
 
 
 
+    private static boolean checkHotHands() {
+    int meldCount = 0;
+    for (int j = 0; j < 6; j++) {
+        meldCount += meldOccurrenceArray[j];
+    }
+    if (meldCount != 6) {
+        return false;
+    }
+    for (int k = 0; k < 6; k++) {
+        if (meldOccurrenceArray[k] == 0) {
+            continue;
+        }
+        meldOccurrenceArray[k] -= 1;
+        int testScore = Score.scoreChart(meldOccurrenceArray);
+        meldOccurrenceArray[k] += 1;
+        if (testScore == meldScore) {
+            return false; 
+        }
+    }
+    return true;
+    }
 
-
-    public static void turnProcess() {
+    public static void turnProcess(int[] testHand, boolean test) {
         /*
         Allows the user to swap dice between hand and meld, as well as reroll selected dice
         Also allows user to end their turn of exit the game
         */
-
-
-        int[] firstRollArray = Dice.firstRoll();   // used Claude to help me figure out how to import other classes and methods
+       int[] firstRollArray;
+        if (test == true) {
+            firstRollArray = testHand;
+        }
+        else {
+            firstRollArray = Dice.firstRoll();   // used Claude to help me figure out how to import other classes and methods
+        }
         int[] newRollArray = printMenu(firstRollArray, "Z");
+        if (Arrays.equals(newRollArray, farkleArray)) {
+            return;
+        }
         Scanner scanner = new Scanner(System.in);  // found the scanner class for user input from google gen Ai
         System.out.print("Enter the Letter for your Choice: ");
         String userString = scanner.next().toUpperCase();
@@ -192,7 +221,7 @@ public class Turn {
         while (!userString.equals("Q")) {
             if (userString.equals("K")) {
                 if (!Arrays.equals(meldOccurrenceArray, new int[]{0,0,0,0,0,0})) { // Geeks for Geeks helped show this approach fro comparing to an 0 only array
-                   System.out.println("\nYour Final Score is: " + meldScore);
+                   System.out.println("\nYour Final Score is: " + (meldScore + savedPoints));
                 return; 
                 }
                 else {
@@ -226,13 +255,37 @@ public class Turn {
                     rollOccurrenceCount = countHand(newRollArray);
                     if (Score.scoreChart(rollOccurrenceCount) == 0) {
                         System.out.println("\nFarkle! Score = 0");
-                        System.out.println(Arrays.toString(newRollArray));
                         return;
                         }
                 }
             }
             newRollArray = printMenu(newRollArray, userString);
-            
+            if (checkHotHands() == true) {
+
+                System.out.println("***** HOT HAND! ***\nWould you like 6 new dice (y), or bank and end your turn? (n): ");
+                savedPoints += meldScore;
+                userString = scanner.next().toUpperCase();
+                if ((!userString.equals("Y")) && (!userString.equals("N"))) {
+                    System.out.println("Invalid Input: Would you like 6 new dice (y), or bank and end your turn? (n): ");
+                    userString = scanner.next().toUpperCase();
+                }
+                if (userString.equals("Y")) {
+                    newRollArray = Dice.firstRoll();
+                    for (int i = 0; i < 5; i++) {
+                        meldOccurrenceArray[i] = 0;
+                    }
+                    aBanked = true;
+                    bBanked = true;
+                    cBanked = true;
+                    dBanked = true;
+                    eBanked = true;
+                    fBanked = true;
+                }
+                else {
+                    userString = "K";
+                    continue;
+                }
+            }
             System.out.print("Enter the Letter for your Choice: ");
             userString = scanner.next().toUpperCase();
             

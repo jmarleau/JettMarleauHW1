@@ -10,7 +10,7 @@ public class StartBanner {
 
         Scanner scanner = new Scanner(System.in);  // found the scanner class for user input from google gen Ai
         System.out.print("Enter a player name: ");
-        String playerName = scanner.next();
+        String playerName = scanner.nextLine();
         if (playerName.equals("")) {
             playerName = "Unknown Player";
         }
