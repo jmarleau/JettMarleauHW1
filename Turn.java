@@ -26,6 +26,7 @@ public class Turn {
 
     
     private static int[] countHand(int[] dice) {
+    // This is a simple helper function to help the print menu function properly detect if dice are melded or not
     boolean[] inHand = {aBanked, bBanked, cBanked, dBanked, eBanked, fBanked}; // claude recommended this improved array style of booleans over my original non-array style
     int[] counts = {0,0,0,0,0,0};
     for (int i = 0; i < 6; i++) {
@@ -174,6 +175,12 @@ public class Turn {
 
 
     private static boolean checkHotHands() {
+    /*
+    Checks for hot hands by looking to make sure six die are held in the meld
+    It then removes and reinserts each die one at a time to make sure the sore is lowered each time
+    it the score is not lowered, then that die is not necessary for the meld, and it is not a hot hands
+    */
+    
     int meldCount = 0;
     for (int j = 0; j < 6; j++) {
         meldCount += meldOccurrenceArray[j];
