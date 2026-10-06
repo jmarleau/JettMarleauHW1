@@ -1,4 +1,8 @@
 public class TestHands{
+    /*
+    This class contains functions that each return a proper test array for 
+    useful test case combinations. They are read in the Farkle.java file
+    */
 
     static int[] testStraight() {
         // Should output 1000 points if all elements are melded immediately

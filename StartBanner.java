@@ -3,6 +3,10 @@ import java.util.Scanner;
 public class StartBanner {
 
     static void printBanner() {
+        /*
+        This simply prints the starting banner and allows the user to input a name for the player
+        if no name is input, it defaults to "Unknown Player"
+        */
         System.out.println("************************************************************************");
         System.out.println("*                      Zag Farkle by Jett Marleau                      *");
         System.out.println("*                             Copyright 2026                           *");
