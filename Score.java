@@ -39,7 +39,21 @@ public class Score {
     calculates and returns the score based on the combos
     */
     boolean straight = true;
+    boolean tripleCheck = false;
+    boolean doubleCheck = false;
 
+
+    for (int num : occurrenceList) { // check for six of a kind
+        if (num == 3) {
+            tripleCheck = true; 
+        }
+        if (num == 2) {
+            doubleCheck = true; 
+        }
+    }
+    if ((tripleCheck == true) && (doubleCheck == true)) {
+            return 1500;
+        }
     for (int num : occurrenceList) { // check for six of a kind
         if (num == 6) {
             return 3000; 
