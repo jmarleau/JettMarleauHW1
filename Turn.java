@@ -225,10 +225,14 @@ public class Turn {
      
         
 
-        while (!userString.equals("Q")) {
+        while ((!userString.equals("Q")) && (savedPoints < StartBanner.numericPointGoal)) {
             if (userString.equals("K")) {
                 if (!Arrays.equals(meldOccurrenceArray, new int[]{0,0,0,0,0,0})) { // Geeks for Geeks helped show this approach fro comparing to an 0 only array
                    System.out.println("\nYour Final Score is: " + (meldScore + savedPoints));
+                   if (meldScore + savedPoints >= StartBanner.numericPointGoal) {
+                        System.out.println("\nCongrats, you won!");
+                    }
+                    System.out.println("\nThank you for Playing!");
                 return; 
                 }
                 else {
@@ -298,6 +302,9 @@ public class Turn {
             
             
             
+        }
+        if (savedPoints >= StartBanner.numericPointGoal) {
+            System.out.println("\nCongrats, you won!");
         }
         System.out.println("\nThank you for Playing!");
     }
