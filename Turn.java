@@ -7,7 +7,7 @@ public class Turn {
     Contains all logic to create the user's turn
     holds several variables used to update the hand, meld, score, and check for farkles
     */
-
+        public static String userString = "";
         private static boolean aBanked = true;  // used Claude to help format these variables and make their states persist outside of the printMenu function
         private static boolean bBanked = true;
         private static boolean cBanked = true;
@@ -39,7 +39,7 @@ public class Turn {
     
     
     
-    public static int[] printMenu(int[] RollArray, String inputString) {
+    public static int[] printMenu(int[] RollArray, String inputString, Player player) {
         /*
         contains all logic to print the menu based on the hand, meld, and score states
         updates frequently after the user makes any action
@@ -50,6 +50,7 @@ public class Turn {
            firstRoll = false;
            if (Score.scoreChart(rollOccurrenceCount) == 0) {
                 System.out.println("\nFarkle! Score = 0");
+                player.score = 0;
                 return farkleArray;
                 }
         }
@@ -202,11 +203,25 @@ public class Turn {
     return true;
     }
 
-    public static void turnProcess(int[] testHand, boolean test) {
+    public static void turnProcess(int[] testHand, boolean test, Player player) {
         /*
         Allows the user to swap dice between hand and meld, as well as reroll selected dice
         Also allows user to end their turn of exit the game
         */
+       meldScore = 0;
+       handScore = 0;
+       savedPoints = 0;
+       firstRoll = true;
+       aBanked = true;
+       bBanked = true;
+       cBanked = true;
+       dBanked = true;
+       eBanked = true;
+       fBanked = true;
+       for (int i = 0; i < meldOccurrenceArray.length; i++) {
+            meldOccurrenceArray[i] = 0;
+       }
+
        int[] firstRollArray;
         if (test == true) {
             firstRollArray = testHand;
@@ -214,13 +229,13 @@ public class Turn {
         else {
             firstRollArray = Dice.firstRoll();   // used Claude to help me figure out how to import other classes and methods
         }
-        int[] newRollArray = printMenu(firstRollArray, "Z");
+        int[] newRollArray = printMenu(firstRollArray, "Z", player);
         if (Arrays.equals(newRollArray, farkleArray)) {
             return;
         }
         Scanner scanner = new Scanner(System.in);  // found the scanner class for user input from google gen Ai
         System.out.print("Enter the Letter for your Choice: ");
-        String userString = scanner.next().toUpperCase();
+        userString = scanner.next().toUpperCase();
         Random random = new Random();
      
         
@@ -228,11 +243,17 @@ public class Turn {
         while ((!userString.equals("Q")) && (savedPoints < StartBanner.numericPointGoal)) {
             if (userString.equals("K")) {
                 if (!Arrays.equals(meldOccurrenceArray, new int[]{0,0,0,0,0,0})) { // Geeks for Geeks helped show this approach fro comparing to an 0 only array
-                   System.out.println("\nYour Final Score is: " + (meldScore + savedPoints));
+                   System.out.println("\nYour Final Score is: " + (meldScore + savedPoints) + "\n");
+                   player.score += (meldScore + savedPoints);
                    if (meldScore + savedPoints >= StartBanner.numericPointGoal) {
-                        System.out.println("\nCongrats, you won!");
+                        System.out.println("\nCongrats, " + player.name + " you won!");
+                        System.out.println("\nThank you for Playing!");
                     }
-                    System.out.println("\nThank you for Playing!");
+                    else {
+                        for (Player currentPlayer : StartBanner.playerArray) {
+                            System.out.println(currentPlayer.name + " Current Score: " + currentPlayer.score);
+                        }
+                    }
                 return; 
                 }
                 else {
@@ -270,11 +291,12 @@ public class Turn {
                         }
                 }
             }
-            newRollArray = printMenu(newRollArray, userString);
+            newRollArray = printMenu(newRollArray, userString, player);
             if (checkHotHands() == true) {
 
                 System.out.println("***** HOT HAND! ***\nWould you like 6 new dice (y), or bank and end your turn? (n): ");
                 savedPoints += meldScore;
+                player.score += meldScore;
                 userString = scanner.next().toUpperCase();
                 if ((!userString.equals("Y")) && (!userString.equals("N"))) {
                     System.out.println("Invalid Input: Would you like 6 new dice (y), or bank and end your turn? (n): ");
