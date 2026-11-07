@@ -19,17 +19,42 @@ public class Farkle {
         // int[] testFarkle = TestHands.testFarkle();
         // // Turn.turnProcess(testFarkle, test);
         
+        boolean gameplayLoopControl = true;
+
         StartBanner.printBanner();
-        while (true) {
+        while (gameplayLoopControl == true) {
             for (int i = 0; i < StartBanner.playerArray.length; i++) {
+                System.out.println("\n\n\n" + StartBanner.playerArray[i].name + " It's Your Turn!");
                 Turn.turnProcess(defaultRandomArray, notTest, StartBanner.playerArray[i]);
                 if (StartBanner.playerArray[i].score >= StartBanner.numericPointGoal) {
-                    return;
+                    gameplayLoopControl = false;
+                    break;
                 }
                 if (Turn.userString.equals("Q")) {
                     return;
                 }
             }
+        }
+        System.out.println("Endgame Reached! Try to beat the highscore in one turn!");
+        for (int i = 0; i < StartBanner.playerArray.length; i++) {
+            if (StartBanner.playerArray[i].score >= StartBanner.numericPointGoal) {
+                continue;
+            }
+            System.out.println("\n\n\n" + StartBanner.playerArray[i].name + " It's Your Turn!");
+            Turn.turnProcess(defaultRandomArray, notTest, StartBanner.playerArray[i]);
+            if (Turn.userString.equals("Q")) {
+                break;
+            }
+        }
+        Player highestScoringPlayer = StartBanner.playerArray[0];
+        for (int i = 0; i < StartBanner.playerArray.length; i++) {
+            if (StartBanner.playerArray[i].score > highestScoringPlayer.score) {
+                highestScoringPlayer = StartBanner.playerArray[i];
+            }
+        }
+        System.out.println("\n\n\n" + highestScoringPlayer.name + ": Congrats you win!");
+        for (Player currentPlayer : StartBanner.playerArray) {
+            System.out.println(currentPlayer.name + " Current Score: " + currentPlayer.score);
         }
         
     }

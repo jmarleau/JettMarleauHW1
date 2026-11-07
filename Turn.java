@@ -55,8 +55,8 @@ public class Turn {
                 }
         }
 
-        System.out.println("\nCurrent Hand:" + Arrays.toString(RollArray));  // looked this method up online
-        System.out.println("Occurence of each die value (1 - 6) : " + Arrays.toString(rollOccurrenceCount) + "\n");
+        // System.out.println("\nCurrent Hand:" + Arrays.toString(RollArray));  // looked this method up online
+        // System.out.println("Occurence of each die value (1 - 6) : " + Arrays.toString(rollOccurrenceCount) + "\n");
         
 
         System.out.println("********** Current Hand and Meld **********");

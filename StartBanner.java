@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class StartBanner {
-
+    public static Player[] playerArray;
     static public int numericPointGoal = 0;
 
     static void printBanner() {
@@ -34,12 +34,20 @@ public class StartBanner {
             }
         }
         numericPointGoal = Integer.parseInt(pointGoal);
-        System.out.print("Enter a player name: ");
-        String playerName = scanner.nextLine();
-        if (playerName.equals("")) {
-            playerName = "Unknown Player";
-        }
 
-        System.out.println(playerName + ", it's your turn! Rolling dice...");
+        System.out.print("How many players are there? ");
+        String numOfPlayers = scanner.nextLine().trim();
+        int playerCount = Integer.parseInt(numOfPlayers); // found from Google
+
+
+        playerArray = new Player[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            System.out.print("Player " + (i + 1) + ": Enter a player name: ");
+            String playerName = scanner.nextLine();
+            if (playerName.equals("")) {
+                playerName = "Unknown Player " + (i + 1);
+        }
+            playerArray[i] = new Player(0, playerName);
+        }
     }
 }
